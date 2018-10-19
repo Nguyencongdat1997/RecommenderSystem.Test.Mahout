@@ -14,8 +14,8 @@ import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
-import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
-import org.apache.mahout.cf.taste.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
+import org.apache.mahout.cf.taste.impl.eval.RecommenderEvaluator;
+import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,7 +46,7 @@ public class UserbasedRecommender {
 
         //Evaluate
         RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
-        double evaluation = evaluator.evaluate(builder, myModel, 0.9, 1.0);
+        double evaluation = evaluator.evaluate(builder, model, 0.9, 1.0);
         System.out.println(Double.toString(evaluation));
     }
 }
