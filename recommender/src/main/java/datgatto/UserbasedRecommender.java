@@ -19,11 +19,11 @@ import org.apache.mahout.cf.taste.eval.AverageAbsoluteDifferenceRecommenderEvalu
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ItembasedRecommender {
+public class UserbasedRecommender {
 
     public static void main(String[] args) throws IOException, TasteException {
 
-        Logger log = LoggerFactory.getLogger(ItembasedRecommender.class);
+        Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
         // Load data
         DataModel model = new FileDataModel(new File("input/u.user"));
