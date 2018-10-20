@@ -60,7 +60,7 @@ public class ItembasedRecommender {
         };
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
         System.out.print("EuclideanDistanceSimilarity: ");
         System.out.println(result);
 
@@ -73,7 +73,7 @@ public class ItembasedRecommender {
         };
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
         System.out.print("TanimotoCoefficientSimilarity: ");
         System.out.println(result);
 
@@ -86,7 +86,7 @@ public class ItembasedRecommender {
         };
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
         System.out.print("LogLikelihoodSimilarity: ");
         System.out.println(result);
         

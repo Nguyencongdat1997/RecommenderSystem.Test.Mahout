@@ -62,38 +62,9 @@ public class UserbasedRecommender {
         };
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
         System.out.print("EuclideanDistanceSimilarity" );
         System.out.println(result);
-
-        //TanimotoCoefficientSimilarity
-        builder = new RecommenderBuilder() {
-            public Recommender buildRecommender(DataModel dataModel) throws TasteException{
-                UserSimilarity similarity = new TanimotoCoefficientSimilarity(dataModel);
-                UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, dataModel);
-                return new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
-            }
-        };
-
-        evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.print("TanimotoCoefficientSimilarity" );
-        System.out.println(result);
-
-        //LogLikelihoodSimilarity
-        builder = new RecommenderBuilder() {
-            public Recommender buildRecommender(DataModel dataModel) throws TasteException{
-                UserSimilarity similarity = new LogLikelihoodSimilarity(dataModel);
-                UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, dataModel);
-                return new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
-            }
-        };
-
-        evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
-        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.print("LogLikelihoodSimilarity");
-        System.out.println(result);
-
 
     }
 }
