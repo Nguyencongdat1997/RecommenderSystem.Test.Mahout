@@ -48,7 +48,8 @@ public class ItembasedRecommender {
 
         RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
         double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.println('PearsonCorrelationSimilarity: ' + result);
+        System.out.print('PearsonCorrelationSimilarity: ');
+        System.out.println(result);
 
         //EuclideanDistanceSimilarity
         builder = new RecommenderBuilder() {
@@ -60,7 +61,8 @@ public class ItembasedRecommender {
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
         double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.println('EuclideanDistanceSimilarity: ' + result);
+        System.out.print('EuclideanDistanceSimilarity: ');
+        System.out.println(result);
 
         //TanimotoCoefficientSimilarity
         builder = new RecommenderBuilder() {
@@ -72,7 +74,8 @@ public class ItembasedRecommender {
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
         double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.println('TanimotoCoefficientSimilarity: ' + result);
+        System.out.println('TanimotoCoefficientSimilarity: ');
+        System.out.println(result);
 
         //LogLikelihoodSimilarity
         builder = new RecommenderBuilder() {
@@ -84,7 +87,8 @@ public class ItembasedRecommender {
 
         evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
         double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
-        System.out.println('LogLikelihoodSimilarity: ' + result);
+        System.out.println('LogLikelihoodSimilarity: ');
+        System.out.println(result);
         
     }
 }
