@@ -1,34 +1,90 @@
-// package datgatto;
+package datgatto;
 
-// import java.io.File;
-// import java.io.IOException;
-// import java.util.List;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
 
-// import org.apache.mahout.cf.taste.common.TasteException;
-// import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
-// import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
-// import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
-// import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
-// import org.apache.mahout.cf.taste.model.DataModel;
-// import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
-// import org.apache.mahout.cf.taste.recommender.RecommendedItem;
-// import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
-// import org.apache.mahout.cf.taste.similarity.UserSimilarity;
-// import org.slf4j.Logger;
-// import org.slf4j.LoggerFactory;
+import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
+import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.recommender.GenericItemBasedRecommender;
+import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.EuclideanDistanceSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.TanimotoCoefficientSimilarity;
+import org.apache.mahout.cf.taste.impl.similarity.LogLikelihoodSimilarity;
+import org.apache.mahout.cf.taste.model.DataModel;
+import org.apache.mahout.cf.taste.neighborhood.UserNeighborhood;
+import org.apache.mahout.cf.taste.recommender.RecommendedItem;
+import org.apache.mahout.cf.taste.recommender.UserBasedRecommender;
+import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
+import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
+import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
+import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
+import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.eval.DataModelBuilder;
+import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
+import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
+import org.apache.mahout.cf.taste.model.PreferenceArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-// public class ItembasedRecommender {
+public class ItembasedRecommender {
 
-//     public static void main(String[] args) throws IOException, TasteException {
+    public static void main(String[] args) throws IOException, TasteException {
 
-//         Logger log = LoggerFactory.getLogger(ItembasedRecommender.class);
+        Logger log = LoggerFactory.getLogger(ItembasedRecommender.class);
+
+        DataModel model = new FileDataModel(new File("input/foody_rate.csv"));
         
-//         DataModel model = new FileDataModel(new File("input/foody.csv"));
-//         ItemSimilarity itemSimilarity = new EuclideanDistanceSimilarity (model);
-//         Recommender itemRecommender = new GenericItemBasedRecommender(model,itemSimilarity);
-//         List<RecommendedItem> itemRecommendations = itemRecommender.recommend(3, 2);
-//         for (RecommendedItem itemRecommendation : itemRecommendations) {
-//             System.out.println("Item: " + itemRecommendation);
-//         }
-//     }
-// }
+        //PearsonCorrelationSimilarity
+        RecommenderBuilder builder = new RecommenderBuilder() {
+            public Recommender buildRecommender(DataModel model) throws TasteException {
+             ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);
+             return new GenericItemBasedRecommender(model, similarity);
+            }
+        };
+
+        RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
+        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        System.out.println('PearsonCorrelationSimilarity: ' + result);
+
+        //EuclideanDistanceSimilarity
+        builder = new RecommenderBuilder() {
+            public Recommender buildRecommender(DataModel model) throws TasteException {
+             ItemSimilarity similarity = new EuclideanDistanceSimilarity(model);
+             return new GenericItemBasedRecommender(model, similarity);
+            }
+        };
+
+        evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
+        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        System.out.println('EuclideanDistanceSimilarity: ' + result);
+
+        //TanimotoCoefficientSimilarity
+        builder = new RecommenderBuilder() {
+            public Recommender buildRecommender(DataModel model) throws TasteException {
+             ItemSimilarity similarity = new TanimotoCoefficientSimilarity(model);
+             return new GenericItemBasedRecommender(model, similarity);
+            }
+        };
+
+        evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
+        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        System.out.println('TanimotoCoefficientSimilarity: ' + result);
+
+        //LogLikelihoodSimilarity
+        builder = new RecommenderBuilder() {
+            public Recommender buildRecommender(DataModel model) throws TasteException {
+             ItemSimilarity similarity = new LogLikelihoodSimilarity(model);
+             return new GenericItemBasedRecommender(model, similarity);
+            }
+        };
+
+        evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
+        double result = evaluator.evaluate(builder, null, model, 0.7, 0.2);
+        System.out.println('LogLikelihoodSimilarity: ' + result);
+        
+    }
+}
