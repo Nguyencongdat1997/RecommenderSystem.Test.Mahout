@@ -32,13 +32,14 @@ public class UserbasedRecommender {
         Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
         // Load data
-        DataModel model = new FileDataModel(new File("input/u.user"));
+        DataModel model = new GenericDataModel(GenericDataModel.toDataMap(
+                            new FileDataModel(new FileDataModel(new File("input/u.user"))));
 
         // DataModelBuilder
         DataModelBuilder modelBuilder = new DataModelBuilder() {
             @Override
             public DataModel buildDataModel(FastByIDMap<PreferenceArray> trainingData) {
-                return new FileDataModel(FileDataModel.toDataMap(trainingData));
+                return new GenericDataModel(GenericDataModel.toDataMap(trainingData));
             }
         };
 
