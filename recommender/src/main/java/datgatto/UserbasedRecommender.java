@@ -33,8 +33,7 @@ public class UserbasedRecommender {
         Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
         // Load data
-        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(
-                            new FileDataModel(new FileDataModel(new File("input/u.user")))));
+        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(new FileDataModel(new File("input/u.user"))));
 
         // DataModelBuilder
         DataModelBuilder modelBuilder = new DataModelBuilder() {
