@@ -33,7 +33,7 @@ public class UserbasedRecommender {
         Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
         // Load data
-        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(new FileDataModel(new File("input/u.user"))));
+        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(new FileDataModel(new File("input/foody_rate.csv"))));
 
         // DataModelBuilder
         DataModelBuilder modelBuilder = new DataModelBuilder() {
@@ -61,7 +61,7 @@ public class UserbasedRecommender {
 
         //Evaluate
         RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
-        double evaluation = evaluator.evaluate(builder, modelBuilder, model, 0.7, 0.1);
+        double evaluation = evaluator.evaluate(builder, modelBuilder, model, 0.9, 1);
         System.out.println(Double.toString(evaluation));
     }
 }
