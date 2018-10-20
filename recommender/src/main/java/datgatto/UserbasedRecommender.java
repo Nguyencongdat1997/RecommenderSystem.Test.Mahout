@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.mahout.cf.taste.common.TasteException;
 import org.apache.mahout.cf.taste.impl.model.file.FileDataModel;
 import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
@@ -32,36 +33,18 @@ public class UserbasedRecommender {
 
         Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
-        // Load data
-        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(new FileDataModel(new File("input/foody_rate.csv"))));
-
-        // DataModelBuilder
-        DataModelBuilder modelBuilder = new DataModelBuilder() {
-            @Override
-            public DataModel buildDataModel(FastByIDMap<PreferenceArray> trainingData) {
-                return new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(trainingData));
-            }
-        };
-
-        //Model
+        DataModel model = new FileDataModel(new File("input/foody_rate.csv"));
+        
         RecommenderBuilder builder = new RecommenderBuilder() {
             public Recommender buildRecommender(DataModel model) throws TasteException{
-                // Compute the similarity between users, according to their preferences
-                UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
-
-                // Neigborhood
-                UserNeighborhood neighborhood = new NearestNUserNeighborhood(3, userSimilarity, model);
-
-                // Recommender
-                Recommender recommender = new GenericUserBasedRecommender(model, neighborhood, userSimilarity);
-                
-                return recommender;
+                UserSimilarity similarity = new PearsonCorrelationSimilarity(dataModel);
+                UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.1, similarity, dataModel);
+                return new GenericUserBasedRecommender(dataModel, neighborhood, similarity);
             }
         };
 
-        //Evaluate
-        RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
-        double evaluation = evaluator.evaluate(builder, modelBuilder, model, 0.9, 1);
-        System.out.println(Double.toString(evaluation));
+        RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();        
+        double result = evaluator.evaluate(builder, null, model, 0.9, 1.0);
+        System.out.println(result);
     }
 }
