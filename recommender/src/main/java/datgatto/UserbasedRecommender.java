@@ -18,6 +18,7 @@ import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.recommender.Recommender;
+import org.apache.mahout.cf.taste.eval.DataModelBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +30,14 @@ public class UserbasedRecommender {
 
         // Load data
         DataModel model = new FileDataModel(new File("input/u.user"));
+
+        // DataModelBuilder
+        DataModelBuilder modelBuilder = new DataModelBuilder() {
+            @Override
+            public DataModel buildDataModel(FastByIDMap<PreferenceArray> trainingData) {
+                return new FileDataModel(FileDataModel.toDataMap(trainingData));
+            }
+        };
 
         //Model
         RecommenderBuilder builder = new RecommenderBuilder() {
@@ -48,7 +57,7 @@ public class UserbasedRecommender {
 
         //Evaluate
         RecommenderEvaluator evaluator = new AverageAbsoluteDifferenceRecommenderEvaluator();
-        double evaluation = evaluator.evaluate(builder, model, 0.9, 1.0);
+        double evaluation = evaluator.evaluate(builder, modelBuilder, model, 0.7, 0.1);
         System.out.println(Double.toString(evaluation));
     }
 }
