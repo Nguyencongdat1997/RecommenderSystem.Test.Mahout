@@ -45,7 +45,7 @@ public class UserbasedRecommender {
 
         //Model
         RecommenderBuilder builder = new RecommenderBuilder() {
-            public Recommender buildRecommender(DataModel model) {
+            public Recommender buildRecommender(DataModel model) throws TasteException{
                 // Compute the similarity between users, according to their preferences
                 UserSimilarity userSimilarity = new PearsonCorrelationSimilarity(model);
 
