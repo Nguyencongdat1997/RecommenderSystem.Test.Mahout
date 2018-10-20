@@ -33,7 +33,7 @@ public class UserbasedRecommender {
 
         // Load data
         DataModel model = new GenericDataModel(GenericDataModel.toDataMap(
-                            new FileDataModel(new FileDataModel(new File("input/u.user"))));
+                            new FileDataModel(new FileDataModel(new File("input/u.user")))));
 
         // DataModelBuilder
         DataModelBuilder modelBuilder = new DataModelBuilder() {
