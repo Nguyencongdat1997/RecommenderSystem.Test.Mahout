@@ -22,13 +22,13 @@ public class ItembasedRecommender {
     public static void main(String[] args) throws IOException, TasteException {
 
         Logger log = LoggerFactory.getLogger(ItembasedRecommender.class);
-
-        // Load historical data about user preferences
-        DataModel model = new FileDataModel(new File("input/u.user"));
+        
+        DataModel model = new FileDataModel(new File("input/foody.csv"));
         ItemSimilarity itemSimilarity = new EuclideanDistanceSimilarity (model);
         Recommender itemRecommender = new GenericItemBasedRecommender(model,itemSimilarity);
         List<RecommendedItem> itemRecommendations = itemRecommender.recommend(3, 2);
         for (RecommendedItem itemRecommendation : itemRecommendations) {
-        System.out.println("Item: " + itemRecommendation);
+            System.out.println("Item: " + itemRecommendation);
+        }
     }
 }
