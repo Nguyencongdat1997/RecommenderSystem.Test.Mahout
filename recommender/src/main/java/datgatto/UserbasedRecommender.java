@@ -21,6 +21,7 @@ import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.eval.DataModelBuilder;
 import org.apache.mahout.cf.taste.impl.common.FastByIDMap;
 import org.apache.mahout.cf.taste.impl.model.GenericDataModel;
+import org.apache.mahout.cf.taste.impl.model.GenericBooleanPrefDataModel;
 import org.apache.mahout.cf.taste.model.PreferenceArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,14 +33,14 @@ public class UserbasedRecommender {
         Logger log = LoggerFactory.getLogger(UserbasedRecommender.class);
 
         // Load data
-        DataModel model = new GenericDataModel(GenericDataModel.toDataMap(
+        DataModel model = new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(
                             new FileDataModel(new FileDataModel(new File("input/u.user")))));
 
         // DataModelBuilder
         DataModelBuilder modelBuilder = new DataModelBuilder() {
             @Override
             public DataModel buildDataModel(FastByIDMap<PreferenceArray> trainingData) {
-                return new GenericDataModel(GenericDataModel.toDataMap(trainingData));
+                return new GenericBooleanPrefDataModel(GenericBooleanPrefDataModel.toDataMap(trainingData));
             }
         };
 
