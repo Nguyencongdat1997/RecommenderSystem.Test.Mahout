@@ -17,7 +17,7 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.eval.RecommenderIRStatsEvaluator;
-import org.apache.mahout.cf.taste.eval.IRStatistics
+import org.apache.mahout.cf.taste.eval.IRStatistics;
 import org.apache.mahout.cf.taste.impl.eval.GenericRecommenderIRStatsEvaluator;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
 import org.apache.mahout.cf.taste.recommender.Recommender;
